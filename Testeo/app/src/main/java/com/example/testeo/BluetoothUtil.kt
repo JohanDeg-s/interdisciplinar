@@ -20,7 +20,8 @@ object BluetoothUtil {
     /**
      * More efficient caching of name than BluetoothDevice which always does RPC
      */
-    data class Device(@SuppressLint("MissingPermission") val device: BluetoothDevice) : Comparable<Device> {
+    data class Device(@SuppressLint("MissingPermission") val device: BluetoothDevice) :
+        Comparable<Device> {
         @SuppressLint("MissingPermission")
         val name: String? = device.name
 
@@ -45,6 +46,7 @@ object BluetoothUtil {
                     if (nameComparison != 0) nameComparison
                     else device.address.compareTo(other.device.address)
                 }
+
                 thisValid -> -1
                 otherValid -> 1
                 else -> device.address.compareTo(other.device.address)
@@ -114,11 +116,13 @@ object BluetoothUtil {
         }
 
         val activity = fragment.requireActivity()
-        val missingPermissions = activity.checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
-                activity.checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED
+        val missingPermissions =
+            activity.checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
+                    activity.checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED
 
-        val showRationale = fragment.shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH_CONNECT) ||
-                fragment.shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH_SCAN)
+        val showRationale =
+            fragment.shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH_CONNECT) ||
+                    fragment.shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH_SCAN)
 
         val permissions = arrayOf(
             Manifest.permission.BLUETOOTH_CONNECT,
@@ -146,8 +150,9 @@ object BluetoothUtil {
     ) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
 
-        val showRationale = fragment.shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH_CONNECT) ||
-                fragment.shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH_SCAN)
+        val showRationale =
+            fragment.shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH_CONNECT) ||
+                    fragment.shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH_SCAN)
 
         val granted = grants.values.all { it }
 

@@ -4,9 +4,9 @@
     <string name="action_settings">Settings</string>
 
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
+    <!-- <string name="first_fragment_label">First Fragment</string> -->
     <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
+    <!-- <string name="next">Next</string> -->
     <string name="previous">Previous</string>
 
     <string name="lorem_ipsum">
@@ -37,7 +37,7 @@
         ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
         placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
         convallis.\n\n
-        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        Phasellus en aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
         malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
         gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
         libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
@@ -54,7 +54,7 @@
     <!-- Permisos Bluetooth -->
     <string name="bluetooth_permission_title">Permiso Bluetooth</string>
     <string name="bluetooth_permission_grant">Esta aplicación requiere permisos de Bluetooth. Por favor concede el permiso en el siguiente diálogo.</string>
-    <string name="bluetooth_permission_denied">El permiso de Bluetooth fue denegado permanentemente. Tienes que habilitar el permiso \"%s\" en la configuración de la aplicación.</string>
+    <string name="bluetooth_permission_denied">El permiso de Bluetooth fue denegado permanentemente. Tienes que habilitar el permiso "%s" en la configuración de la aplicación.</string>
 
     <!-- Permisos de ubicación -->
     <string name="location_permission_title">Permiso de ubicación</string>
