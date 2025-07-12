@@ -21,6 +21,7 @@ object VoiceCommandHelper {
     fun initVoiceCommands(activity: MainActivity) {
         mainActivity = activity
 
+
         // Configurar launcher para permiso de audio
         requestAudioPermissionLauncher = activity.registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -90,6 +91,7 @@ object VoiceCommandHelper {
         Toast.makeText(mainActivity, "Comando: $textoReconocido", Toast.LENGTH_SHORT).show()
 
         when {
+            // Comandos de alertas existentes
             textoReconocido.contains("probar alerta") ||
                     textoReconocido.contains("probar alertas") -> {
                 AlertaManager.reproducirAlertaSonido(mainActivity)
@@ -103,9 +105,11 @@ object VoiceCommandHelper {
                 AlertaManager.reproducirAlertaHumedad(mainActivity)
             }
 
+
             else -> {
                 Toast.makeText(mainActivity, "Comando no reconocido", Toast.LENGTH_SHORT).show()
             }
         }
     }
 }
+

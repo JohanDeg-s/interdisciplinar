@@ -14,9 +14,11 @@ object AlertaManager {
 
     private const val HUMIDITY_ALERT_COOLDOWN_MS = 5000L
     private const val DISTANCE_ALERT_COOLDOWN_MS = 5000L
+    private const val ESCALERAS_ALERT_COOLDOWN_MS = 10000L
 
     private var canPlayHumidityAlert = true
     private var canPlayDistanceAlert = true
+    private var canPlayEscalerasAlert = true
 
     private var previousDistance: Double? = null
 
@@ -61,6 +63,33 @@ object AlertaManager {
         }
     }
 
+    // 🆕 Nueva función para alertas de escaleras
+    fun reproducirAlertaEscaleras(context: Context) {
+        if (!canPlayEscalerasAlert) {
+            Log.d("AlertaManager", "Alerta escaleras en cooldown")
+            return
+        }
+
+        try {
+            val mp = MediaPlayer.create(context, R.raw.alerta_escalera)
+            mp?.let {
+                it.setOnCompletionListener { player -> player.release() }
+                it.start()
+                Log.d("AlertaManager", "Reproduciendo alerta de escaleras")
+
+                // Activar cooldown
+                canPlayEscalerasAlert = false
+                handler.postDelayed({
+                    canPlayEscalerasAlert = true
+                    Log.d("AlertaManager", "Cooldown escaleras finalizado")
+                }, ESCALERAS_ALERT_COOLDOWN_MS)
+            }
+        } catch (e: Exception) {
+            Log.e("AlertaManager", "Error alerta escaleras", e)
+            Toast.makeText(context, "Error alerta escaleras: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     fun verificarCambioDistancia(context: Context, currentDistance: Double) {
         val prev = previousDistance
         if (prev == null) {
@@ -87,4 +116,7 @@ object AlertaManager {
             Log.d("AlertaManager", "Alerta humedad: $humedad%")
         }
     }
+
+    // 🆕 Función para verificar si la alerta de escaleras está disponible
+    fun canPlayEscalerasAlert(): Boolean = canPlayEscalerasAlert
 }

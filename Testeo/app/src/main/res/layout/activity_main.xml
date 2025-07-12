@@ -116,6 +116,18 @@
                     android:text="🗺️ Abrir Maps"
                     android:layout_marginTop="12dp" />
 
+                <!-- 🆕 Botón para activar/desactivar verificación de escaleras -->
+                <Button
+                    android:id="@+id/btnToggleEscaleras"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🪜 Activar Alerta Escaleras"
+                    android:layout_marginTop="12dp"
+                    android:background="@android:color/holo_orange_dark"
+                    android:textColor="@android:color/white"
+                    android:padding="12dp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
         </ScrollView>
 

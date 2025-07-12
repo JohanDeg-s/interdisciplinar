@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
     private lateinit var btnGuardarPunto: Button
     private lateinit var mapsButton: Button
     private lateinit var btnConectarBluetooth: Button
+    private lateinit var btnToggleEscaleras: Button // 🆕 Nuevo botón
     private lateinit var fragmentContainer: FrameLayout
     private lateinit var mainContent: ScrollView
     private lateinit var toolbar: Toolbar
@@ -74,6 +75,7 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
         btnGuardarPunto = findViewById(R.id.btnGuardarPunto)
         mapsButton = findViewById(R.id.mapsButton)
         btnConectarBluetooth = findViewById(R.id.btnConectarBluetooth)
+        btnToggleEscaleras = findViewById(R.id.btnToggleEscaleras) // 🆕 Inicializar nuevo botón
         fragmentContainer = findViewById(R.id.fragment_container)
         mainContent = findViewById(R.id.main_content)
         toolbar = findViewById(R.id.toolbar)
@@ -88,9 +90,39 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
     private fun establecerListeners() {
         btnDemo.setOnClickListener { DemoDialog.mostrar(this) }
         btnGuardarPunto.setOnClickListener { guardarPuntoActual() }
-        mapsButton.setOnClickListener { MapsHelper.abrirGoogleMaps(this) }  // 👈 Usando el helper
+        mapsButton.setOnClickListener { MapsHelper.abrirGoogleMaps(this) }
         btnConectarBluetooth.setOnClickListener { mostrarDevicesFragment() }
+
+        // 🆕 Listener para el botón de escaleras
+        btnToggleEscaleras.setOnClickListener { toggleVerificacionEscaleras() }
+
         // btnVoice listener se configura automáticamente en VoiceCommandHelper
+    }
+
+    // 🆕 Función para activar/desactivar verificación de escaleras
+    private fun toggleVerificacionEscaleras() {
+        if (EscalerasHelper.isActiva()) {
+            EscalerasHelper.desactivarVerificacion { isActiva ->
+                actualizarBotonEscaleras(isActiva)
+                txtStatus.text = if   (isActiva) "Verificación de escaleras ACTIVADA" else "Verificación de escaleras DESACTIVADA"
+            }
+        } else {
+            EscalerasHelper.activarVerificacion(this) { isActiva ->
+                actualizarBotonEscaleras(isActiva)
+                txtStatus.text = if (isActiva) "Verificación de escaleras ACTIVADA" else "Verificación de escaleras DESACTIVADA"
+            }
+        }
+    }
+
+    // 🆕 Actualizar el texto y color del botón según el estado
+    private fun actualizarBotonEscaleras(isActiva: Boolean) {
+        if (isActiva) {
+            btnToggleEscaleras.text = "🪜 Desactivar Alerta Escaleras"
+            btnToggleEscaleras.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
+        } else {
+            btnToggleEscaleras.text = "🪜 Activar Alerta Escaleras"
+            btnToggleEscaleras.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_orange_dark))
+        }
     }
 
     override fun onBackStackChanged() {
@@ -112,6 +144,12 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 🆕 Limpiar recursos al destruir la actividad
+        EscalerasHelper.desactivarVerificacion { }
     }
 
     private fun obtenerUbicacion() {
